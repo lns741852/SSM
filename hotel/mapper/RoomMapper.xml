@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.dao.RoomMapper">
+  <resultMap id="BaseResultMap" type="com.java.bean.Room">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="room_num" jdbcType="VARCHAR" property="roomNum" />
+    <result column="room_status" jdbcType="VARCHAR" property="roomStatus" />
+    <result column="room_type_id" jdbcType="BIGINT" property="roomTypeId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, room_num, room_status, room_type_id
+  </sql>
+  <select id="selectByExample" parameterType="com.java.bean.RoomExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rooms
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from rooms
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from rooms
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.java.bean.RoomExample">
+    delete from rooms
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.java.bean.Room">
+    insert into rooms (id, room_num, room_status, 
+      room_type_id)
+    values (#{id,jdbcType=BIGINT}, #{roomNum,jdbcType=VARCHAR}, #{roomStatus,jdbcType=VARCHAR}, 
+      #{roomTypeId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.java.bean.Room">
+    insert into rooms
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roomNum != null">
+        room_num,
+      </if>
+      <if test="roomStatus != null">
+        room_status,
+      </if>
+      <if test="roomTypeId != null">
+        room_type_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="roomNum != null">
+        #{roomNum,jdbcType=VARCHAR},
+      </if>
+      <if test="roomStatus != null">
+        #{roomStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="roomTypeId != null">
+        #{roomTypeId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.java.bean.RoomExample" resultType="java.lang.Long">
+    select count(*) from rooms
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update rooms
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.roomNum != null">
+        room_num = #{record.roomNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roomStatus != null">
+        room_status = #{record.roomStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roomTypeId != null">
+        room_type_id = #{record.roomTypeId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update rooms
+    set id = #{record.id,jdbcType=BIGINT},
+      room_num = #{record.roomNum,jdbcType=VARCHAR},
+      room_status = #{record.roomStatus,jdbcType=VARCHAR},
+      room_type_id = #{record.roomTypeId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.java.bean.Room">
+    update rooms
+    <set>
+      <if test="roomNum != null">
+        room_num = #{roomNum,jdbcType=VARCHAR},
+      </if>
+      <if test="roomStatus != null">
+        room_status = #{roomStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="roomTypeId != null">
+        room_type_id = #{roomTypeId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.java.bean.Room">
+    update rooms
+    set room_num = #{roomNum,jdbcType=VARCHAR},
+      room_status = #{roomStatus,jdbcType=VARCHAR},
+      room_type_id = #{roomTypeId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <resultMap id="BaseResultMap" type="com.java.bean.Room">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="room_num" jdbcType="VARCHAR" property="roomNum" />
+    <result column="room_status" jdbcType="VARCHAR" property="roomStatus" />
+    <result column="room_type_id" jdbcType="BIGINT" property="roomTypeId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, room_num, room_status, room_type_id
+  </sql>
+  <select id="selectByExample" parameterType="com.java.bean.RoomExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rooms
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from rooms
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from rooms
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.java.bean.RoomExample">
+    delete from rooms
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.java.bean.Room">
+    insert into rooms (id, room_num, room_status, 
+      room_type_id)
+    values (#{id,jdbcType=BIGINT}, #{roomNum,jdbcType=VARCHAR}, #{roomStatus,jdbcType=VARCHAR}, 
+      #{roomTypeId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.java.bean.Room">
+    insert into rooms
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roomNum != null">
+        room_num,
+      </if>
+      <if test="roomStatus != null">
+        room_status,
+      </if>
+      <if test="roomTypeId != null">
+        room_type_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="roomNum != null">
+        #{roomNum,jdbcType=VARCHAR},
+      </if>
+      <if test="roomStatus != null">
+        #{roomStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="roomTypeId != null">
+        #{roomTypeId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.java.bean.RoomExample" resultType="java.lang.Long">
+    select count(*) from rooms
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update rooms
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.roomNum != null">
+        room_num = #{record.roomNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roomStatus != null">
+        room_status = #{record.roomStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roomTypeId != null">
+        room_type_id = #{record.roomTypeId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update rooms
+    set id = #{record.id,jdbcType=BIGINT},
+      room_num = #{record.roomNum,jdbcType=VARCHAR},
+      room_status = #{record.roomStatus,jdbcType=VARCHAR},
+      room_type_id = #{record.roomTypeId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.java.bean.Room">
+    update rooms
+    <set>
+      <if test="roomNum != null">
+        room_num = #{roomNum,jdbcType=VARCHAR},
+      </if>
+      <if test="roomStatus != null">
+        room_status = #{roomStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="roomTypeId != null">
+        room_type_id = #{roomTypeId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.java.bean.Room">
+    update rooms
+    set room_num = #{roomNum,jdbcType=VARCHAR},
+      room_status = #{roomStatus,jdbcType=VARCHAR},
+      room_type_id = #{roomTypeId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <resultMap id="BaseResultMap" type="com.java.bean.Room">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="room_num" jdbcType="VARCHAR" property="roomNum" />
+    <result column="room_status" jdbcType="VARCHAR" property="roomStatus" />
+    <result column="room_type_id" jdbcType="BIGINT" property="roomTypeId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, room_num, room_status, room_type_id
+  </sql>
+  <select id="selectByExample" parameterType="com.java.bean.RoomExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rooms
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from rooms
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from rooms
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.java.bean.RoomExample">
+    delete from rooms
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.java.bean.Room">
+    insert into rooms (id, room_num, room_status, 
+      room_type_id)
+    values (#{id,jdbcType=BIGINT}, #{roomNum,jdbcType=VARCHAR}, #{roomStatus,jdbcType=VARCHAR}, 
+      #{roomTypeId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.java.bean.Room">
+    insert into rooms
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roomNum != null">
+        room_num,
+      </if>
+      <if test="roomStatus != null">
+        room_status,
+      </if>
+      <if test="roomTypeId != null">
+        room_type_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="roomNum != null">
+        #{roomNum,jdbcType=VARCHAR},
+      </if>
+      <if test="roomStatus != null">
+        #{roomStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="roomTypeId != null">
+        #{roomTypeId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.java.bean.RoomExample" resultType="java.lang.Long">
+    select count(*) from rooms
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update rooms
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.roomNum != null">
+        room_num = #{record.roomNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roomStatus != null">
+        room_status = #{record.roomStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roomTypeId != null">
+        room_type_id = #{record.roomTypeId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update rooms
+    set id = #{record.id,jdbcType=BIGINT},
+      room_num = #{record.roomNum,jdbcType=VARCHAR},
+      room_status = #{record.roomStatus,jdbcType=VARCHAR},
+      room_type_id = #{record.roomTypeId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.java.bean.Room">
+    update rooms
+    <set>
+      <if test="roomNum != null">
+        room_num = #{roomNum,jdbcType=VARCHAR},
+      </if>
+      <if test="roomStatus != null">
+        room_status = #{roomStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="roomTypeId != null">
+        room_type_id = #{roomTypeId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.java.bean.Room">
+    update rooms
+    set room_num = #{roomNum,jdbcType=VARCHAR},
+      room_status = #{roomStatus,jdbcType=VARCHAR},
+      room_type_id = #{roomTypeId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
